@@ -1,0 +1,89 @@
+.clearfix {
+
+    &:before,
+    &:after {
+        content: '';
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+.f-left {
+    float: left;
+}
+
+.f-right {
+    float: right;
+}
+
+.t-left {
+    text-align: left !important;
+}
+
+.t-right {
+    text-align: right !important;
+}
+
+.t-center {
+    text-align: center !important;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .2s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+    {
+    opacity: 0;
+}
+
+.f-12 {
+    font-size: 12px !important;
+}
+
+.f-14 {
+    font-size: 14px !important;
+}
+
+.f-22 {
+    font-size: 22px !important;
+}
+
+.f-24 {
+    font-size: 24px !important;
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.ovhi {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.no-border {
+    border: 0 none !important;
+}
+
+.cube-toast-tip {
+    font-size: 24px;
+    line-height: 30px;
+    max-height: 90px;
+}

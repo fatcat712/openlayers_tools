@@ -1,17 +1,36 @@
 <template>
-  <div class="multi-layer"></div>
-</template>
-
-<script>
-export default {};
-</script>
-
-<style>
-</style><template>
-  <div class="base-map">
+  <div class="multi-layer">
     <div id="map">
-      <div id="zoom"></div>
+      <el-button
+        plain
+        class="multilayer-icon"
+        icon="el-icon-copy-document"
+        @click="openLayerDrawer"
+      ></el-button>
     </div>
+
+    <el-drawer
+      custom-class="multilayer-drawer"
+      :visible.sync="drawer"
+      direction="rtl"
+      :modal="true"
+      :modal-append-to-body="false"
+      size="20%"
+      tabindex
+    >
+      <div slot="title">图层</div>
+      <ul class="layer-group">
+        <li
+          :class="['layer-item',item.checked ? 'active':'']"
+          v-for="(item,index) in sourceList"
+          :key="item.id"
+          @click="exchangeLayer(index,item)"
+        >
+          <img :src="item.img" :alt="item.title" />
+          <p class="title">{{item.title}}</p>
+        </li>
+      </ul>
+    </el-drawer>
   </div>
 </template>
 
@@ -25,61 +44,82 @@ export default {
   name: "basemap",
   data() {
     return {
-      tileLayer: null,
-      mountainLayer: null,
+      map: null,
+      sourceList: [],
+      layerList: [],
+      drawer: false,
     };
   },
-  created() {},
+  created() {
+    this.getLayerSource();
+  },
   mounted() {
     this.initMap();
   },
   methods: {
-    initMap() {
-      let baselayer = new TileLayer({
+    exchangeLayer(index, params) {
+      this.sourceList[index].checked = !this.sourceList[index].checked;
+      this.singleLayerInit(this.sourceList[index].checked, params);
+    },
+    openLayerDrawer() {
+      this.drawer = !this.drawer;
+    },
+    getLayerSource() {
+      //获取所有图层数据源
+      this.$http.get(this.$api.sourcelist).then((res) => {
+        this.sourceList = res.data;
+        let baselayer = new TileLayer({
+          id: this.sourceList[0].id,
+          title: this.sourceList[0].title,
+          layerName: this.sourceList[0].id,
           source: new XYZ({
-            url:
-              "http://t4.tianditu.com/DataServer?T=vec_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}",
-          }),
-        }),
-        textlayer = new TileLayer({
-          source: new XYZ({
-            url:
-              "http://t3.tianditu.com/DataServer?T=cva_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}",
+            url: this.sourceList[0].source,
           }),
         });
-
-      this.tileLayer = new TileLayer({
-        id: "tileLayer",
-        title: "卫星图",
-        layerName: "baseMap",
-        source: new XYZ({
-          url:
-            "http://t3.tianditu.com/DataServer?T=img_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}",
-        }),
       });
-      this.mountainLayer = new TileLayer({
-        id: "mountainLayer",
-        title: "地形图",
-        layerName: "baseMap",
-        source: new XYZ({
-          url:
-            "http://t4.tianditu.com/DataServer?T=ter_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}",
-        }),
-      });
-
-      const map = new Map({
+    },
+    singleLayerInit(addFlag, params) {
+      console.log(this.layerList);
+      let layerIndex = this.layerInclude(params.id);
+      if (!addFlag) {
+        //移出图层
+        this.map.removeLayer(this.layerList[layerIndex]);
+      } else {
+        //叠加图层，要判断图层是否创建好
+        if (layerIndex > -1) {
+          this.map.addLayer(this.layerList[layerIndex]);
+        } else {
+          let layer = new TileLayer({
+            id: params.id,
+            title: params.title,
+            layerName: params.id,
+            source: new XYZ({
+              url: params.source,
+            }),
+          });
+          this.layerList.push(layer);
+          this.map.addLayer(this.layerList[this.layerList.length - 1]);
+          console.log(this.layerList);
+        }
+      }
+    },
+    layerInclude(layerId) {
+      return this.layerList.findIndex((v) => v.values_.id === layerId);
+    },
+    initMap() {
+      this.map = new Map({
         target: "map",
-        layers: [baselayer, this.tileLayer, textlayer],
+        layers: [
+          new TileLayer({
+            source: new OSM(),
+          }),
+        ],
         view: new View({
           projection: "EPSG:4326",
           center: [117.22942, 31.79942],
           zoom: 8,
         }),
-        controls: [
-          new Zoom({
-            target: "zoom",
-          }),
-        ],
+        controls: [],
       });
     },
   },
@@ -87,19 +127,49 @@ export default {
 </script>
 
 <style scoped lang="less">
-.base-map {
+.multi-layer {
   width: 100%;
   height: 100%;
+  position: relative;
   #map {
     width: 100%;
     height: 100%;
-    #zoom {
+    position: relative;
+    .multilayer-icon {
       position: absolute;
       right: 20px;
-      bottom: 20px;
-      width: 60px;
-      height: 60px;
+      top: 20px;
       z-index: 99;
+    }
+  }
+  /deep/ .multilayer-drawer {
+    top: 56px !important;
+    .el-drawer__header {
+      margin-bottom: 20px;
+    }
+    .layer-group {
+      border-top: 1px solid #b3b5b7;
+      padding-top: 20px;
+      display: flex;
+      flex-flow: row wrap;
+      padding: 20px;
+      .layer-item {
+        margin: 0 20px 20px 0;
+        width: 60px;
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+        border: 2px solid #dfe3e6;
+        border-radius: 3px;
+        line-height: 20px;
+        img {
+          width: 60px;
+          height: 60px;
+        }
+        &.active {
+          border-color: #14b982;
+        }
+      }
     }
   }
 }

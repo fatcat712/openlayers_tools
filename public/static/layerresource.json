@@ -1,0 +1,32 @@
+{
+    "data":[
+        {
+            "id":"electronic",
+            "title":"电子地图",
+            "checked":false,
+            "img":"http://lbs.tianditu.gov.cn/images/vec_c.png",
+            "source":"http://t4.tianditu.com/DataServer?T=vec_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}"
+        },
+        {
+            "id":"mark",
+            "title":"标注层",
+            "checked":false,
+            "img":"http://lbs.tianditu.gov.cn/images/cva_c.png",
+            "source":"http://t3.tianditu.com/DataServer?T=cva_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}"
+        },
+        {
+            "id":"satellite",
+            "title":"卫星图",
+            "checked":false,
+            "img":"http://lbs.tianditu.gov.cn/images/img_c.png",
+            "source":"http://t3.tianditu.com/DataServer?T=img_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}"
+        },
+        {
+            "id":"mountain",
+            "title":"地形图",
+            "checked":false,
+            "img":"http://lbs.tianditu.gov.cn/images/ter_c.png",
+            "source":"http://t4.tianditu.com/DataServer?T=ter_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}"
+        }
+    ]
+}

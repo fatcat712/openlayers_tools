@@ -1,9 +1,6 @@
 <template>
-  <div class="base-map">
-    <div id="map">
-      <div id="zoom"></div>
-      <div id="scale-line"></div>
-    </div>
+  <div class="layer-probe">
+    <div id="map"></div>
   </div>
 </template>
 
@@ -16,7 +13,7 @@ import Zoom from "ol/control/Zoom";
 import ScaleLine from "ol/control/ScaleLine";
 
 export default {
-  name: "basemap",
+  name: "layerprobe",
   data() {
     return {};
   },
@@ -43,28 +40,61 @@ export default {
             url:
               "http://t3.tianditu.com/DataServer?T=cva_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}",
           }),
+        }),
+        satellite = new TileLayer({
+          id: "satellite",
+          title: "卫星图",
+          layerName: "satellite",
+          source: new XYZ({
+            url:
+              "http://t3.tianditu.com/DataServer?T=img_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}",
+          }),
         });
 
-      let scaleline = new ScaleLine({
-        className: "scale-line-custom",
-        target: "scale-line",
-        bar: true,
-      });
-
-      const map = new Map({
+      var map = new Map({
         target: "map",
-        layers: [baselayer, textlayer],
+        layers: [satellite, baselayer, textlayer],
         view: new View({
           projection: "EPSG:4326",
           center: [117.22942, 31.79942],
           zoom: 12,
         }),
-        controls: [
-          new Zoom({
-            target: "zoom",
-          }),
-          scaleline,
-        ],
+        controls: [],
+      });
+
+      var radius = 75;
+      var mousePosition = null;
+      map.getViewport().onmousemove = function (evt) {
+        mousePosition = map.getEventPixel(evt); //获得当前鼠标的位置
+        map.render();
+      };
+      map.getViewport().onmouseout = function () {
+        mousePosition = null;
+        map.render();
+      };
+      baselayer.on("prerender", function (event) {
+        console.log(event);
+        var ctx = event.context; //影像图层画布
+        var pixelRatio = event.frameState.pixelRatio; //像素比
+        ctx.save();
+        ctx.beginPath();
+        if (mousePosition) {
+          ctx.arc(
+            mousePosition[0] * pixelRatio,
+            mousePosition[1] * pixelRatio,
+            radius * pixelRatio,
+            0,
+            2 * Math.PI
+          ); //设置画布区为一个圆
+          ctx.lineWidth = 5 * pixelRatio;
+          ctx.strokeStyle = "rgba(0,0,0,0.5)";
+          ctx.stroke();
+        }
+        ctx.clip(); //裁剪画布
+      });
+      baselayer.on("postrender", function (event) {
+        var ctx = event.context;
+        ctx.restore(); //还原画布
       });
     },
   },
@@ -72,7 +102,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.base-map {
+.layer-probe {
   width: 100%;
   height: 100%;
   #map {

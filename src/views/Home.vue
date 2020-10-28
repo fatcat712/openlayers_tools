@@ -3,39 +3,17 @@
     <el-container>
       <el-aside width="200px">
         <el-menu
-          default-active="/basemap"
+          v-if="menuList.length"
+          :default-active="defaultMenu"
           class="el-menu-vertical-demo"
           background-color="#9999CC"
           text-color="#fff"
-          active-text-color="#99CCCC"
+          active-text-color="#4429b3"
           :router="true"
+          @select="menuselect"
         >
-          <el-menu-item index="/basemap">
-            <span slot="title">基础地图</span>
-          </el-menu-item>
-          <el-menu-item index="/multilayer">
-            <span slot="title">多图层切换</span>
-          </el-menu-item>
-          <el-menu-item index="/">
-            <span slot="title">覆盖物</span>
-          </el-menu-item>
-          <el-menu-item index="/">
-            <span slot="title">距离计算</span>
-          </el-menu-item>
-          <el-menu-item index="/">
-            <span slot="title">面积计算</span>
-          </el-menu-item>
-          <el-menu-item index="/">
-            <span slot="title">绘制</span>
-          </el-menu-item>
-          <el-menu-item index="/">
-            <span slot="title">态势图</span>
-          </el-menu-item>
-          <el-menu-item index="/">
-            <span slot="title">卷帘</span>
-          </el-menu-item>
-          <el-menu-item index="/">
-            <span slot="title">图层探查</span>
+          <el-menu-item :index="item.path" v-for="item in menuList" :key="item.path">
+            <span slot="title">{{item.menuName}}</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -54,8 +32,31 @@ export default {
   name: "Home",
   data() {
     return {
-      activeMenu: "基础地图",
+      menuList: [],
+      defaultMenu: "",
+      activeMenu: "",
     };
+  },
+  created() {
+    this.getMenuList();
+  },
+  methods: {
+    menuselect(index) {
+      let curmenu = this.menuList.find((v) => v.path == index);
+      this.activeMenu = curmenu.menuName;
+    },
+    getMenuList() {
+      this.$http.get(this.$api.menulist).then((res) => {
+        this.menuList = res.data;
+
+        let txtIndex = this.menuList.findIndex(
+          (v) => v.path === this.$route.fullPath
+        );
+
+        this.defaultMenu = this.$route.fullPath;
+        this.activeMenu = this.menuList[txtIndex].menuName;
+      });
+    },
   },
 };
 </script>
@@ -69,6 +70,8 @@ export default {
       color: #330033;
       text-align: center;
       line-height: 56px;
+      font-size: 18px;
+      font-weight: bold;
     }
 
     .el-aside {
@@ -88,7 +91,6 @@ export default {
       background-color: #e9eef3;
       color: #333;
       text-align: center;
-      line-height: 160px;
       padding: 0;
     }
   }

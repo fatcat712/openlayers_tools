@@ -3,6 +3,11 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import baseMap from '../views/baseMap.vue'
 import multiLayer from '../views/multiLayer.vue'
+import overlay from '../views/overlay.vue'
+import distance from '../views/distance.vue'
+import area from '../views/area.vue'
+import rollerShutters from '../views/rollerShutters.vue'
+import layerProbe from '../views/layerProbe.vue'
 Vue.use(VueRouter)
 const routes = [{
     path: '/',
@@ -10,16 +15,32 @@ const routes = [{
     component: Home,
     redirect: '/basemap',
     children: [{
-            // 当 /user/:id/profile 匹配成功，
-            // UserProfile 会被渲染在 User 的 <router-view> 中
             path: 'basemap',
             component: baseMap
         },
         {
-            // 当 /user/:id/posts 匹配成功
-            // UserPosts 会被渲染在 User 的 <router-view> 中
             path: 'multilayer',
             component: multiLayer
+        },
+        {
+            path: 'overlay',
+            component: overlay
+        },
+        {
+            path: 'distance',
+            component: distance
+        },
+        {
+            path: 'area',
+            component: area
+        },
+        {
+            path: 'rollershutters',
+            component: rollerShutters
+        },
+        {
+            path: 'layerprobe',
+            component: layerProbe
         }
     ]
 }]

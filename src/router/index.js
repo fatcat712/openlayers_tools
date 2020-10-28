@@ -1,13 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import baseMap from '../views/baseMap.vue'
-import multiLayer from '../views/multiLayer.vue'
-import overlay from '../views/overlay.vue'
-import distance from '../views/distance.vue'
-import area from '../views/area.vue'
-import rollerShutters from '../views/rollerShutters.vue'
-import layerProbe from '../views/layerProbe.vue'
 Vue.use(VueRouter)
 const routes = [{
     path: '/',
@@ -16,31 +9,35 @@ const routes = [{
     redirect: '/basemap',
     children: [{
             path: 'basemap',
-            component: baseMap
+            component: () => import("../views/baseMap.vue")
         },
         {
             path: 'multilayer',
-            component: multiLayer
+            component: () => import("../views/multiLayer.vue")
         },
         {
             path: 'overlay',
-            component: overlay
-        },
-        {
-            path: 'distance',
-            component: distance
-        },
-        {
-            path: 'area',
-            component: area
-        },
-        {
-            path: 'rollershutters',
-            component: rollerShutters
+            component: () => import("../views/overlay.vue")
         },
         {
             path: 'layerprobe',
-            component: layerProbe
+            component: () => import("../views/layerProbe.vue")
+        },
+        {
+            path: 'situation',
+            component: () => import("../views/situation.vue")
+        },
+        {
+            path: 'distance',
+            component: () => import("../views/distance.vue")
+        },
+        {
+            path: 'area',
+            component: () => import("../views/area.vue")
+        },
+        {
+            path: 'rollershutters',
+            component: () => import("../views/rollerShutters.vue")
         }
     ]
 }]

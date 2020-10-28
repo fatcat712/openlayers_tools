@@ -169,6 +169,9 @@ export default {
         &.active {
           border-color: #14b982;
         }
+        &:nth-child(3n) {
+          margin-right: 0;
+        }
       }
     }
   }

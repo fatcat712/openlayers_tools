@@ -9,6 +9,10 @@
             "path":"/multilayer"
         },
         {
+            "menuName":"图层探查",
+            "path":"/layerprobe"
+        },
+        {
             "menuName":"覆盖物",
             "path":"/overlay"
         },
@@ -25,8 +29,8 @@
             "path":"/rollershutters"
         },
         {
-            "menuName":"图层探查",
-            "path":"/layerprobe"
+            "menuName":"态势图",
+            "path":"/situation"
         }
     ],
     "error":0,

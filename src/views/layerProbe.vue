@@ -29,7 +29,7 @@ export default {
           layerName: "baseLayer",
           source: new XYZ({
             url:
-              "http://t4.tianditu.com/DataServer?T=vec_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}",
+              "http://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
           }),
         }),
         textlayer = new TileLayer({
@@ -53,7 +53,7 @@ export default {
 
       var map = new Map({
         target: "map",
-        layers: [satellite, baselayer, textlayer],
+        layers: [satellite, baselayer],
         view: new View({
           projection: "EPSG:4326",
           center: [117.22942, 31.79942],

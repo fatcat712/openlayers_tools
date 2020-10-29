@@ -7,10 +7,7 @@
 <script>
 import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
-import OSM from "ol/source/OSM";
 import XYZ from "ol/source/XYZ";
-import Zoom from "ol/control/Zoom";
-import ScaleLine from "ol/control/ScaleLine";
 
 export default {
   name: "layerprobe",
@@ -73,7 +70,6 @@ export default {
         map.render();
       };
       baselayer.on("prerender", function (event) {
-        console.log(event);
         var ctx = event.context; //影像图层画布
         var pixelRatio = event.frameState.pixelRatio; //像素比
         ctx.save();

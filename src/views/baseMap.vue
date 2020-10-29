@@ -1,19 +1,20 @@
 <template>
   <div class="base-map">
-    <div id="map">
-      <div id="zoom"></div>
-      <div id="scale-line"></div>
-    </div>
+    <!-- 地图容器 -->
+    <div id="map"></div>
   </div>
 </template>
 
 <script>
 import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
-import OSM from "ol/source/OSM";
 import XYZ from "ol/source/XYZ";
-import Zoom from "ol/control/Zoom";
-import ScaleLine from "ol/control/ScaleLine";
+import {
+  Zoom,
+  ScaleLine,
+  OverviewMap,
+  defaults as defaultControls,
+} from "ol/control";
 
 export default {
   name: "basemap",
@@ -45,11 +46,30 @@ export default {
           }),
         });
 
-      let scaleline = new ScaleLine({
-        className: "scale-line-custom",
-        target: "scale-line",
-        bar: true,
-      });
+      let zoom = new Zoom({
+          className: "custom-zoom",
+        }),
+        scaleline = new ScaleLine({
+          className: "custom-scale-line",
+          bar: true,
+        }),
+        overview = new OverviewMap({
+          className: "ol-overviewmap ol-custom-overviewmap",
+          collapseLabel: "\u00BB",
+          label: "\u00AB",
+          collapsed: false,
+          layers: [
+            new TileLayer({
+              id: "baseLayer",
+              title: "电子底图",
+              layerName: "baseLayer",
+              source: new XYZ({
+                url:
+                  "http://t4.tianditu.com/DataServer?T=vec_w&tk=bc8607a5baffec68112b0923e618d1a0&x={x}&y={y}&l={z}",
+              }),
+            }),
+          ],
+        });
 
       const map = new Map({
         target: "map",
@@ -59,12 +79,7 @@ export default {
           center: [117.22942, 31.79942],
           zoom: 12,
         }),
-        controls: [
-          new Zoom({
-            target: "zoom",
-          }),
-          scaleline,
-        ],
+        controls: defaultControls().extend([zoom, scaleline, overview]),
       });
     },
   },
@@ -75,26 +90,33 @@ export default {
 .base-map {
   width: 100%;
   height: 100%;
+  position: relative;
   #map {
     width: 100%;
     height: 100%;
-    position: relative;
-    #zoom {
-      position: absolute;
-      right: 20px;
-      bottom: 20px;
-      width: 40px;
-      height: 60px;
-      z-index: 99;
-    }
-    #scale-line {
-      position: absolute;
-      left: 20px;
-      bottom: 16px;
-      width: 40px;
-      height: 30px;
-      z-index: 99;
-    }
+  }
+  /deep/ .custom-zoom {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 99;
+  }
+  /deep/ .custom-scale-line {
+    position: absolute;
+    left: 20px;
+    bottom: 16px;
+    z-index: 99;
+  }
+  /deep/ .ol-overviewmap {
+    top: auto;
+    left: auto;
+    bottom: auto;
+  }
+  /deep/ .ol-custom-overviewmap {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 99;
   }
 }
 </style>

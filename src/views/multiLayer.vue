@@ -1,13 +1,8 @@
 <template>
   <div class="multi-layer">
-    <div id="map">
-      <el-button
-        plain
-        class="multilayer-icon"
-        icon="el-icon-copy-document"
-        @click="openLayerDrawer"
-      ></el-button>
-    </div>
+    <el-button plain class="multilayer-icon" icon="el-icon-copy-document" @click="openLayerDrawer"></el-button>
+    <!-- 地图容器 -->
+    <div id="map"></div>
 
     <el-drawer
       custom-class="multilayer-drawer"
@@ -39,7 +34,6 @@ import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import XYZ from "ol/source/XYZ";
-import Zoom from "ol/control/Zoom";
 export default {
   name: "basemap",
   data() {
@@ -134,13 +128,12 @@ export default {
   #map {
     width: 100%;
     height: 100%;
-    position: relative;
-    .multilayer-icon {
-      position: absolute;
-      right: 20px;
-      top: 20px;
-      z-index: 99;
-    }
+  }
+  .multilayer-icon {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 99;
   }
   /deep/ .multilayer-drawer {
     top: 56px !important;
@@ -153,6 +146,7 @@ export default {
       display: flex;
       flex-flow: row wrap;
       padding: 20px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.4), white);
       .layer-item {
         margin: 0 20px 20px 0;
         width: 60px;

@@ -31,6 +31,10 @@
         {
             "menuName":"态势图",
             "path":"/situation"
+        },
+        {
+            "menuName":"3D",
+            "path":"/three"
         }
     ],
     "error":0,

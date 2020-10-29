@@ -18,9 +18,14 @@
         </el-menu>
       </el-aside>
       <el-container>
-        <el-header height="56px">{{activeMenu}}</el-header>
+        <el-header height="56px">
+          <span>{{activeMenu}}</span>
+          <img class="avator" src="@/assets/img/avator.jpg" alt />
+        </el-header>
         <el-main>
-          <router-view />
+          <keep-alive>
+            <router-view />
+          </keep-alive>
         </el-main>
       </el-container>
     </el-container>
@@ -72,6 +77,14 @@ export default {
       line-height: 56px;
       font-size: 18px;
       font-weight: bold;
+      position: relative;
+      .avator {
+        position: absolute;
+        top: 5px;
+        right: 16px;
+        width: 46px;
+        border-radius: 23px;
+      }
     }
 
     .el-aside {

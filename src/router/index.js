@@ -8,38 +8,33 @@ const routes = [{
     component: Home,
     redirect: '/basemap',
     children: [{
-            path: 'basemap',
-            component: () => import("../views/baseMap.vue")
-        },
-        {
-            path: 'multilayer',
-            component: () => import("../views/multiLayer.vue")
-        },
-        {
-            path: 'overlay',
-            component: () => import("../views/overlay.vue")
-        },
-        {
-            path: 'layerprobe',
-            component: () => import("../views/layerProbe.vue")
-        },
-        {
-            path: 'situation',
-            component: () => import("../views/situation.vue")
-        },
-        {
-            path: 'distance',
-            component: () => import("../views/distance.vue")
-        },
-        {
-            path: 'area',
-            component: () => import("../views/area.vue")
-        },
-        {
-            path: 'rollershutters',
-            component: () => import("../views/rollerShutters.vue")
-        }
-    ]
+        path: 'basemap',
+        component: () => import("../views/baseMap.vue")
+    }, {
+        path: 'multilayer',
+        component: () => import("../views/multiLayer.vue")
+    }, {
+        path: 'overlay',
+        component: () => import("../views/overlay.vue")
+    }, {
+        path: 'layerprobe',
+        component: () => import("../views/layerProbe.vue")
+    }, {
+        path: 'situation',
+        component: () => import("../views/situation.vue")
+    }, {
+        path: 'distance',
+        component: () => import("../views/distance.vue")
+    }, {
+        path: 'area',
+        component: () => import("../views/area.vue")
+    }, {
+        path: 'rollershutters',
+        component: () => import("../views/rollerShutters.vue")
+    }, {
+        path: 'three',
+        component: () => import("../views/three.vue")
+    }]
 }]
 const router = new VueRouter({
     mode: 'history',

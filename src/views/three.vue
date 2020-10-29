@@ -1,5 +1,5 @@
 <template>
-  <div class="distance">
+  <div class="three">
     <custom-empty></custom-empty>
   </div>
 </template>

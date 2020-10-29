@@ -1,13 +1,15 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
 import router from './router';
 import http from './server/http';
 import api from './server/api';
-import './registerServiceWorker'
+import './registerServiceWorker';
 import {
     routerBeforeEach
 } from '@/router/routerGuards';
-
+import {
+    AutomaticImport
+} from './utils';
 import {
     Container,
     Header,
@@ -16,9 +18,9 @@ import {
     Menu,
     MenuItem,
     Drawer,
-    Button
+    Button,
+    Slider
 } from 'element-ui';
-
 
 import 'ol/ol.css';
 import './assets/css/reset.less';
@@ -31,10 +33,13 @@ Vue.component(Menu.name, Menu);
 Vue.component(MenuItem.name, MenuItem);
 Vue.component(Drawer.name, Drawer);
 Vue.component(Button.name, Button);
+Vue.component(Slider.name, Slider);
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = http;
 Vue.prototype.$api = api;
+
+AutomaticImport();
 
 routerBeforeEach();
 

@@ -1,7 +1,15 @@
-<template></template>
-
+<template>
+  <div class="overlay">
+    <custom-empty></custom-empty>
+  </div>
+</template> 
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  },
+  methods: {},
+};
 </script>
 
 <style>

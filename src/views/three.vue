@@ -1,12 +1,27 @@
 <template>
   <div class="three">
-    <custom-empty></custom-empty>
+    <vc-viewer></vc-viewer>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  },
+  mounted() {},
+  methods: {},
+};
 </script>
 
-<style>
+<style scoped lang="less">
+.three {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  #map {
+    width: 100%;
+    height: 100%;
+  }
+}
 </style>

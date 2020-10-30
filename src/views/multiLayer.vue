@@ -146,9 +146,9 @@ export default {
       display: flex;
       flex-flow: row wrap;
       padding: 20px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.4), white);
+      justify-content: space-between;
       .layer-item {
-        margin: 0 20px 20px 0;
+        margin: 10px;
         width: 60px;
         font-size: 12px;
         color: #666;
@@ -162,9 +162,6 @@ export default {
         }
         &.active {
           border-color: #14b982;
-        }
-        &:nth-child(3n) {
-          margin-right: 0;
         }
       }
     }

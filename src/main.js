@@ -10,6 +10,7 @@ import {
 import {
     AutomaticImport
 } from './utils';
+import './utils/directive';
 import {
     Container,
     Header,
@@ -41,6 +42,15 @@ Vue.prototype.$http = http;
 Vue.prototype.$api = api;
 AutomaticImport();
 routerBeforeEach();
+// 注册一个全局自定义指令 `v-throttle`
+Vue.directive('throttle', {
+    // 当被绑定的元素插入到 DOM 中时……
+    inserted: function(el) {
+        // 聚焦元素
+        el.focus()
+    },
+    update() {}
+})
 new Vue({
     router,
     render: h => h(App)

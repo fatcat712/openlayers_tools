@@ -1,9 +1,7 @@
 import axios from 'axios';
-
 let instance = axios.create({
     timeout: 10000
 });
-
 instance.interceptors.request.use(config => {
     return config
 }, err => {
@@ -18,7 +16,8 @@ instance.interceptors.response.use(response => {
             data: res.data.data,
             status: true,
             error: res.data.error,
-            msg: res.data.message
+            msg: res.data.message,
+            obj: res
         };
     }
     return {
@@ -30,5 +29,4 @@ instance.interceptors.response.use(response => {
     //在这里统一添加toast或者提示弹窗
     return Promise.reject(err);
 });
-
 export default instance;
